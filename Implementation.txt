@@ -1,0 +1,123 @@
+IoT-Based Smart Home Automation using AWS IoT Core  
+Implementation Steps (No Hardware Required)
+
+Step 1: Register IoT Things
+----------------------------
+- Go to AWS Management Console > IoT Core.
+- Navigate to "Manage" > "Things".
+- Click on "Create Things" > "Create a single thing".
+- Name your device: smart_light_01.
+- Skip device shadow for now.
+- Click "Next" and skip certificates (no physical device).
+- Finish the setup.
+- Repeat this process to create:
+  - smart_fan_01
+  - smart_lock_01
+  - smart_ac_01
+
+Step 2: Setup MQTT Communication
+--------------------------------
+- Go to AWS IoT Core > MQTT test client.
+- Choose "Subscribe to a topic".
+- Topic name: smartHome/actions
+- Click "Subscribe".
+- This is where incoming device commands will appear.
+
+Step 3: Create AWS Lambda Function
+----------------------------------
+- Go to AWS Lambda > Create Function.
+- Choose "Author from scratch".
+- Name: ProcessSmartHomeActions
+- Runtime: Python 3.12 or Node.js (your choice)
+- Create a new IAM Role with basic Lambda permissions.
+- After creation, paste logic like:
+  Example (Python):
+  ------------------
+  import json
+  import boto3
+  import datetime
+
+  def lambda_handler(event, context):
+      dynamodb = boto3.resource('dynamodb')
+      sns = boto3.client('sns')
+      table = dynamodb.Table('SmartHomeData')
+
+      payload = json.loads(event['Records'][0]['Sns']['Message'])
+      device_id = payload['device_id']
+      action = payload['action']
+      timestamp = str(datetime.datetime.now())
+
+      table.put_item(
+          Item={
+              'device_id': device_id,
+              'action': action,
+              'timestamp': timestamp
+          }
+      )
+
+      message = f"Device {device_id} performed action: {action} at {timestamp}"
+      sns.publish(
+          TopicArn='arn:aws:sns:ap-south-1:xxxxxxxxxxxx:SmartHomeAlerts',
+          Message=message,
+          Subject='Smart Home Action Alert'
+      )
+
+      return {'status': 'Success'}
+
+Step 4: Attach IAM Role Permissions
+-----------------------------------
+- Go to IAM > Roles.
+- Select the role attached to Lambda function.
+- Attach the following policies:
+  - AWSIoTFullAccess
+  - AmazonDynamoDBFullAccess
+  - AmazonSNSFullAccess
+
+Step 5: Create DynamoDB Table
+-----------------------------
+- Go to AWS DynamoDB > Create Table.
+- Table name: SmartHomeData
+- Primary key: device_id (String)
+- Create table (default settings work fine).
+
+Step 6: Create SNS Topic and Subscriptions
+------------------------------------------
+- Go to Amazon SNS > Topics > Create topic.
+- Type: Standard
+- Name: SmartHomeAlerts
+- After creation, click "Create Subscription".
+- Protocol: SMS (enter your mobile number) OR Email
+- Confirm subscription from your phone/email.
+
+Step 7: Test with MQTT Publish
+------------------------------
+- Go to MQTT test client > "Publish to a topic".
+- Topic: smartHome/actions
+- Message payload:
+  {
+    "device_id": "smart_light_01",
+    "action": "TURN_ON"
+  }
+
+- Try other device commands:
+  {
+    "device_id": "smart_fan_01",
+    "action": "TURN_OFF"
+  }
+
+  {
+    "device_id": "smart_ac_01",
+    "action": "TURN_ON"
+  }
+
+  {
+    "device_id": "smart_lock_01",
+    "action": "LOCK"
+  }
+
+Step 8: Observe Outputs
+-----------------------
+- Check Lambda logs for success.
+- Check DynamoDB table for device action records.
+- Receive SMS/email alert via SNS for each command.
+
