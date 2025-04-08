@@ -91,7 +91,7 @@ This project illustrates how to build an end-to-end smart home automation system
 - [5] MQTT Protocol: https://mqtt.org
 ---
 ## 💡 Author
-Manojkumar Sanda | Third-year B.Tech Student @ KL University
+### Manojkumar Sanda | Third-year B.Tech Student @ KL University
 
 Passionate about Full Stack Development & Cloud-Based Projects
 ---
