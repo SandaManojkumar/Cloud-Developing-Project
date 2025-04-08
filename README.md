@@ -84,11 +84,11 @@ Created 4 virtual IoT Things in AWS IoT Core:
 This project illustrates how to build an end-to-end smart home automation system using only AWS services. It leverages MQTT-based messaging, serverless computing, and event-driven architecture to offer a scalable and modular framework for future expansion. The use of cloud-only resources provides a fast, secure, and cost-efficient way to prototype and develop IoT applications.
 ---
 ## 📚 References
-[1] AWS IoT Core Documentation: https://docs.aws.amazon.com/iot/latest/developerguide/what-is-aws-iot.html
-[2] AWS Lambda Documentation: https://docs.aws.amazon.com/lambda
-[3] AWS DynamoDB: https://docs.aws.amazon.com/amazondynamodb
-[4] Amazon SNS: https://docs.aws.amazon.com/sns
-[5] MQTT Protocol: https://mqtt.org
+- [1] AWS IoT Core Documentation: https://docs.aws.amazon.com/iot/latest/developerguide/what-is-aws-iot.html
+- [2] AWS Lambda Documentation: https://docs.aws.amazon.com/lambda
+- [3] AWS DynamoDB: https://docs.aws.amazon.com/amazondynamodb
+- [4] Amazon SNS: https://docs.aws.amazon.com/sns
+- [5] MQTT Protocol: https://mqtt.org
 ---
 ## 💡 Author
 Manojkumar Sanda | Third-year B.Tech Student @ KL University
