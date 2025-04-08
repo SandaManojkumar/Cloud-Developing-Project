@@ -87,6 +87,7 @@ Watch the demo 📺 Click the thumbnail below to watch the implementation on You
 [![Watch the video](https://img.youtube.com/vi/Sq1hA1sHd9Y/0.jpg)](https://youtu.be/Sq1hA1sHd9Y)
 
 ---
+
 ## ✅ Conclusion
 
 This project illustrates how to build an end-to-end smart home automation system using only AWS services. It leverages MQTT-based messaging, serverless computing, and event-driven architecture to offer a scalable and modular framework for future expansion. The use of cloud-only resources provides a fast, secure, and cost-efficient way to prototype and develop IoT applications.
